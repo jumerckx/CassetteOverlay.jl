@@ -251,6 +251,9 @@ macro overlaypass(args...)
             @nospecialize args
             return Core.Compiler._apply_iterate(iterate, self, (f,), args...)
         end
+        @inline function (self::$PassName)(::Type{UnionAll}, v, t)
+            return UnionAll(v, t)
+        end
         @inline (self::$PassName)(::typeof(getpass)) = self
     end
     append!(topblk.args, primitives.args)
